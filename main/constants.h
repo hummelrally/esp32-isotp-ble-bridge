@@ -24,16 +24,20 @@ typedef int16_t							bool16;
 
 #define TASK_STACK_SIZE					3072 //2048
 
-#define TWAI_TASK_PRIO 			 		3 // Ensure we TX messages as quickly as we reasonably can to meet ISO15765-2 timing constraints
+#define TWAI_TASK_PRIO  			 	3 // Ensure we TX messages as quickly as we reasonably can to meet ISO15765-2 timing constraints
 #define ISOTP_TSK_PRIO 					2 // Run the message pump at a higher priority than the main queue/dequeue task when messages are available
 #define MAIN_TSK_PRIO 					1 // Run the main task at the same priority as the BLE queue/dequeue tasks to help in delivery ordering.
 #define PERSIST_TSK_PRIO 				0
 #define HANDLER_TSK_PRIO 				0
 #define UART_TSK_PRIO 					1
 
-#define SILENT_GPIO_NUM 				21 // For A0
-#define LED_ENABLE_GPIO_NUM 			13 // For A0
-#define LED_GPIO_NUM 					2 // For A0
+// ESP32-C3 Super Mini pin assignments
+// GPIO 21 (A0 SILENT) is not available on C3; using GPIO 10 instead
+#define SILENT_GPIO_NUM  				10 // For ESP32-C3 Super Mini (SN65HVD230 RS/S pin)
+// GPIO 13 (A0 LED_ENABLE) is not available on C3; using GPIO 3 instead
+#define LED_ENABLE_GPIO_NUM  			3  // For ESP32-C3 Super Mini
+// ESP32-C3 Super Mini has onboard WS2812 on GPIO 8
+#define LED_GPIO_NUM 					8  // For ESP32-C3 Super Mini (onboard WS2812 LED)
 #define GPIO_OUTPUT_PIN_SEL(X)  		((1ULL<<X))
 
 #define ISOTP_QUEUE_SIZE				64
@@ -60,12 +64,13 @@ typedef int16_t							bool16;
 //#define PASSWORD_CHECK 
 #define MAX_PASSWORD_LENGTH				64
 #define PASSWORD_KEY					"Password"
-#define PASSWORD_DEFAULT			   	"BLE2"
-#define BLE_GAP_KEY		  				"GAP"
+#define PASSWORD_DEFAULT  				"BLE2"
+#define BLE_GAP_KEY	 					"GAP"
 
 #define CAN_INTERNAL_BUFFER_SIZE		1024
-#define CAN_TX_PORT						5
-#define CAN_RX_PORT						4
+// TWAI (CAN) pins for ESP32-C3 Super Mini
+#define CAN_TX_PORT						5  // GPIO 5 -> SN65HVD230 TXD
+#define CAN_RX_PORT						4  // GPIO 4 -> SN65HVD230 RXD
 #define CAN_CLK_IO						TWAI_IO_UNUSED
 #define CAN_BUS_IO						TWAI_IO_UNUSED
 #define CAN_MODE						TWAI_MODE_NORMAL
@@ -79,8 +84,8 @@ typedef int16_t							bool16;
 #define UART_RXD 						UART_PIN_NO_CHANGE
 #define UART_RTS 						UART_PIN_NO_CHANGE
 #define UART_CTS 						UART_PIN_NO_CHANGE
-#define UART_PORT_NUM      				UART_NUM_0
-#define UART_BAUD_RATE     				250000 //250000 //115200
+#define UART_PORT_NUM 					UART_NUM_0
+#define UART_BAUD_RATE 					250000 //250000 //115200
 #define UART_BUFFER_SIZE				8192
 #define UART_INTERNAL_BUFFER_SIZE		2048
 //#define UART_ECHO
